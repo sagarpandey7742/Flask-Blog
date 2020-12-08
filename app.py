@@ -33,16 +33,21 @@ def about():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
-        flash(f"Account created for {form.username.data}.", "success")
+        flash(f"Account created for {form.username.data}.", category="success")
         return redirect(url_for("home"))
     return render_template("register.html", title="Register", form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = RegistrationForm()
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data=="sagarpandey7742@gmail.com" and form.password.data=="admin":
+            flash(f"Successfully logged in.", category="success")
+            return redirect(url_for("home"))
+        else:
+            flash(f"Login Unsuccessful",category="danger")
     return render_template('login.html', title="Login", form=form)
 
 
